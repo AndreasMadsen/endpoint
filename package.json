@@ -1,0 +1,29 @@
+{
+  "name": "endpoint",
+  "description": "stream v2 compatible stream to single buffer module",
+  "version": "0.2.0",
+  "author": "Andreas Madsen <amwebdk@gmail.com>",
+  "main": "./endpoint.js",
+  "scripts": {
+    "test": "tap test.js"
+  },
+  "repository" : {
+    "type": "git",
+    "url": "git://github.com/AndreasMadsen/endpoint.git"
+  },
+  "keywords": [
+    "endpoint",
+    "stream",
+    "buffer",
+    "convert",
+    "stream2"
+  ],
+  "devDependencies": {
+    "tap": "0.3.x"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "0.10 || 0.9",
+    "npm": "1"
+  }
+}
