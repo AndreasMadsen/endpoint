@@ -31,7 +31,7 @@ function Endpoint(callback) {
 module.exports = Endpoint;
 util.inherits(Endpoint, stream.Writable);
 
-Endpoint.prototype._write = function (chunk, callback) {
+Endpoint.prototype._write = function (chunk, encodeing, callback) {
   this._buffers.push(chunk);
 
   return callback(null);
