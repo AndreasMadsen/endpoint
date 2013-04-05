@@ -1,6 +1,6 @@
 #endpoint
 
-> stream v2 compatible stream to single buffer module
+> Converts a stream intro a buffer or array of objects
 
 ## Installation
 
@@ -10,20 +10,32 @@ npm install endpoint
 
 ## Documentation
 
-`endpoint` is a `WriteStream` there converts a stream to a buffer, it also
-collectes stream errors.
+`endpoint` is a `WriteStream` there converts a stream to a buffer or an array
+of object, it also collectes stream errors.
+
+**Collect a buffer stream intro a single buffer:**
 
 ```JavaScript
-  var fs = require('fs';
   var endpoint = require('endpoint');
 
-  fs.createReadStream(__filename).pipe(endpoint(function (err, buffer) {
+  BufferStream.pipe(endpoint(function (err, buffer) {
     console.log('error:', err);
     console.log('buffer'; buffer);
   }));
 ```
 
-While the data chunks are being collected the total current buffer can be
+**Collect an object stream intro an array of object:**
+
+```JavaScript
+  var endpoint = require('endpoint');
+
+  ObjectStream.pipe(endpoint({objectMode: true}, function (err, array) {
+    console.log('error:', err);
+    console.log('array'; array);
+  }));
+```
+
+In both situations the currently colllected buffer or array of object can be
 accesses by `this.buffer`.
 
 ##License
