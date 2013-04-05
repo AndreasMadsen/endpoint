@@ -1,7 +1,7 @@
 {
   "name": "endpoint",
-  "description": "stream v2 compatible stream to single buffer module",
-  "version": "0.2.1",
+  "description": "Converts a stream intro a buffer or array of objects",
+  "version": "0.3.0",
   "author": "Andreas Madsen <amwebdk@gmail.com>",
   "main": "./endpoint.js",
   "scripts": {
