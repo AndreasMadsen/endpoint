@@ -12,29 +12,43 @@ function Endpoint(options, callback) {
   }
 
   stream.Writable.call(this, options);
+  var self = this;
 
   this._objectMode = !!options.objectMode;
 
   // will keep a long list of buffers
   this._buffers = [];
 
-  // Either finish or error will be used to declar a done state
-  function finish() {
-    this.removeListener('error', error);
-    this.emit('close');
+  // Cleanup event listeners
+  var sources = [];
+  function cleanup() {
+    self.removeListener('pipe', onpipe);
+    self.removeListener('error', error);
+    self.removeListener('finish', finish);
+    for (var i = 0, l = sources.length; i < l; i++) {
+      sources[i].removeListener('error', error);
+    }
+  }
 
+  // Either finish or error will be used to declare a done state
+  function finish() {
+    cleanup();
     callback(null, this.buffer);
   }
 
   function error(err) {
-    this.removeListener('finish', finish);
-    this.emit('close');
-
+    cleanup();
     callback(err, this.buffer);
+  }
+
+  function onpipe(source) {
+    sources.push(source);
+    source.once('error', error);
   }
 
   this.once('finish', finish);
   this.once('error', error);
+  this.on('pipe', onpipe);
 }
 module.exports = Endpoint;
 util.inherits(Endpoint, stream.Writable);

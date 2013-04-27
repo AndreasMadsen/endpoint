@@ -1,6 +1,7 @@
 
 var test = require('tap').test;
 var endpoint = require('./endpoint.js');
+var PassThrough = require('stream').PassThrough;
 
 test('simple write and end', function (t) {
   var point = endpoint(function (err, buffer) {
@@ -38,7 +39,20 @@ test('simple error handling', function (t) {
 
   point.write("hallo");
   point.emit('error', fakeError);
-  point.end();
+  point.end(); // should not affect callback
+});
+
+test('collect error from source', function (t) {
+  var fakeError = new Error('error');
+  var source = new PassThrough();
+
+  var point = endpoint(function (err, buffer) {
+    t.equal(err, fakeError);
+    t.end();
+  });
+
+  source.pipe(point);
+  source.emit('error', fakeError);
 });
 
 test('simple write and end', function (t) {

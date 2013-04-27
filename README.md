@@ -11,7 +11,7 @@ npm install endpoint
 ## Documentation
 
 `endpoint` is a `WriteStream` there converts a stream to a buffer or an array
-of object, it also collectes stream errors.
+of object, it also collectes stream errors from the source.
 
 **Collect a buffer stream intro a single buffer:**
 
