@@ -48,11 +48,31 @@ test('collect error from source', function (t) {
 
   var point = endpoint(function (err, buffer) {
     t.equal(err, fakeError);
+    t.equal(buffer.length, 0);
     t.end();
   });
 
   source.pipe(point);
   source.emit('error', fakeError);
+});
+
+test('don\'t collect error from unpiped source', function (t) {
+  var fakeError = new Error('error');
+  var source = new PassThrough();
+
+  // Ignore this error
+  source.once('error', function () {});
+
+  var point = endpoint(function (err, buffer) {
+    t.equal(err, null);
+    t.equal(buffer.length, 0);
+    t.end();
+  });
+
+  source.pipe(point);
+  source.unpipe(point);
+  source.emit('error', fakeError);
+  point.end();
 });
 
 test('simple write and end', function (t) {

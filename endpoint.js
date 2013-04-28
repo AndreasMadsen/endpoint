@@ -33,22 +33,31 @@ function Endpoint(options, callback) {
   // Either finish or error will be used to declare a done state
   function finish() {
     cleanup();
-    callback(null, this.buffer);
+    callback(null, self.buffer);
   }
 
   function error(err) {
     cleanup();
-    callback(err, this.buffer);
+    callback(err, self.buffer);
   }
 
+  // Handle errors on source streams
   function onpipe(source) {
     sources.push(source);
     source.once('error', error);
+  }
+  function onunpipe(source) {
+    var index = sources.indexOf(source);
+    if (index !== -1) {
+      sources.splice(index, 1);
+      source.removeListener('error', error);
+    }
   }
 
   this.once('finish', finish);
   this.once('error', error);
   this.on('pipe', onpipe);
+  this.on('unpipe', onunpipe);
 }
 module.exports = Endpoint;
 util.inherits(Endpoint, stream.Writable);
