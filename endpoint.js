@@ -2,14 +2,6 @@
 var Writable = require('stream').Writable;
 var util = require('util');
 
-if (Writable === undefined) {
-  try {
-    Writable = require('readable-stream').Writable;
-  } catch (e) {
-    throw new Error('stream v2 is not supported by your node version, upgrade or install readable-stream');
-  }
-}
-
 function Endpoint(options, callback) {
   if (!(this instanceof Endpoint)) return new Endpoint(options, callback);
 
