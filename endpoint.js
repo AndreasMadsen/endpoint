@@ -1,6 +1,6 @@
 
 var Writable = require('stream').Writable;
-var util = require('util');
+var inherits = require('inherits');
 
 function Endpoint(options, callback) {
   if (!(this instanceof Endpoint)) return new Endpoint(options, callback);
@@ -60,7 +60,7 @@ function Endpoint(options, callback) {
   this.on('unpipe', onunpipe);
 }
 module.exports = Endpoint;
-util.inherits(Endpoint, Writable);
+inherits(Endpoint, Writable);
 
 Endpoint.prototype._write = function (data, encodeing, callback) {
   this._buffers.push(data);
