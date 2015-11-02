@@ -1,7 +1,7 @@
 {
   "name": "endpoint",
   "description": "Converts a stream intro a buffer or array of objects",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "author": "Andreas Madsen <amwebdk@gmail.com>",
   "main": "./endpoint.js",
   "scripts": {
